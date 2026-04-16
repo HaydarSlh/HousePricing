@@ -22,6 +22,8 @@ class ChainResult(BaseModel):
     response: AgentResponse | None = None
     missing_fields: list[str] = []
     missing_details: list[dict] = []
+    extracted_fields: list[str] = []   # what was found — shown to user during review
+    extracted_values: dict = {}        # field → value for already-extracted features
 
 
 class AgentChain:
@@ -70,6 +72,8 @@ class AgentChain:
                 is_complete=False,
                 missing_fields=extraction.missing_fields,
                 missing_details=extraction.missing_details,
+                extracted_fields=extraction.extracted_fields,
+                extracted_values=extraction.partial_values,
             )
 
         # ── ML: predict price ────────────────────────────────────────────────

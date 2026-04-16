@@ -129,6 +129,7 @@ class ExtractionResult(BaseModel):
 
     features: Optional[ExtractedFeatures] = None
     extracted_fields: list[str] = Field(default_factory=list)
+    partial_values: dict = Field(default_factory=dict)   # values of extracted fields when incomplete
     missing_fields: list[str] = Field(default_factory=list)
     missing_details: list[dict] = Field(default_factory=list)
     is_complete: bool = False
@@ -192,9 +193,16 @@ def validate_extraction(raw_data: dict, user_query: str) -> ExtractionResult:
         missing = sorted(failed_fields)
         missing_details = [_build_missing_detail(f, metadata) for f in missing]
 
+        # Capture the actual values of successfully extracted fields for UI review
+        partial_values = {
+            k: raw_data[k] for k in extracted
+            if k in raw_data and raw_data[k] is not None
+        }
+
         return ExtractionResult(
             features=None,
             extracted_fields=extracted,
+            partial_values=partial_values,
             missing_fields=missing,
             missing_details=missing_details,
             is_complete=False,

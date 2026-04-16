@@ -56,6 +56,8 @@ st.caption(
 for key, default in [
     ("accumulated_query", ""),
     ("missing_details",   []),
+    ("extracted_fields",  []),
+    ("extracted_values",  {}),
     ("result",            None),
     ("turn",              0),
 ]:
@@ -78,9 +80,22 @@ if st.session_state.turn == 0:
 
 else:
     missing = st.session_state.missing_details
+    extracted_values = st.session_state.extracted_values
+
+    # ── What was already found ────────────────────────────────────────────────
+    if extracted_values:
+        n_found = len(extracted_values)
+        n_total = 12
+        st.success(f"Found {n_found}/{n_total} features so far:")
+        found_rows = {
+            FEATURE_DISPLAY.get(k, k): str(v)
+            for k, v in extracted_values.items()
+        }
+        st.table(found_rows)
+
+    # ── What is still missing ─────────────────────────────────────────────────
     st.warning(
-        f"I need {len(missing)} more detail(s) to complete the estimate. "
-        "Please provide the information below."
+        f"Still need {len(missing)} more detail(s) to complete the estimate."
     )
 
     for detail in missing:
@@ -106,9 +121,13 @@ col_reset, col_submit = st.columns([1, 4])
 
 with col_reset:
     if st.button("Reset", use_container_width=True):
-        for key in ("accumulated_query", "missing_details", "result", "turn"):
-            st.session_state[key] = {"accumulated_query": "", "missing_details": [],
-                                     "result": None, "turn": 0}[key]
+        for key in ("accumulated_query", "missing_details", "extracted_fields",
+                    "extracted_values", "result", "turn"):
+            st.session_state[key] = {
+                "accumulated_query": "", "missing_details": [],
+                "extracted_fields": [], "extracted_values": {},
+                "result": None, "turn": 0,
+            }[key]
         st.rerun()
 
 with col_submit:
@@ -146,9 +165,12 @@ if submitted:
     if data["is_complete"]:
         st.session_state.result = data["response"]
         st.session_state.missing_details = []
+        st.session_state.extracted_values = {}
         st.rerun()
     else:
         st.session_state.missing_details = data["missing_details"]
+        st.session_state.extracted_fields = data.get("extracted_fields", [])
+        st.session_state.extracted_values = data.get("extracted_values", {})
         st.session_state.turn += 1
         st.rerun()
 

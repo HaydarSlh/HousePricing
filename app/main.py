@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.chain.pipeline import ChainResult, get_chain
+from app.utils.errors import LLMAPIError, PredictionError
 from app.utils.logger import setup_logger
 
 setup_logger("app")
@@ -66,5 +67,20 @@ def predict(request: PredictRequest):
         raise HTTPException(status_code=400, detail="Query cannot be empty.")
 
     chain = get_chain()
-    result = chain.run(request.query)
-    return result
+    try:
+        return chain.run(request.query)
+    except LLMAPIError as exc:
+        logger.error("LLM API failure: %s", exc)
+        raise HTTPException(
+            status_code=503,
+            detail="The AI service is temporarily unavailable. Please try again shortly.",
+        )
+    except PredictionError as exc:
+        logger.error("Prediction failure: %s", exc)
+        raise HTTPException(
+            status_code=500,
+            detail="The price prediction model failed. Please try again.",
+        )
+    except Exception as exc:
+        logger.error("Unexpected chain error: %s", exc)
+        raise HTTPException(status_code=500, detail="An unexpected error occurred.")
