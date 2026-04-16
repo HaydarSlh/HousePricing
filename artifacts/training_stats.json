@@ -1,0 +1,186 @@
+{
+  "model": "RandomForestRegressor (5-fold CV tuned)",
+  "n_train_samples": 1758,
+  "selected_features": [
+    "Overall Qual",
+    "Gr Liv Area",
+    "Garage Area",
+    "Total Bsmt SF",
+    "Year Built",
+    "Full Bath",
+    "Mas Vnr Area",
+    "Bsmt Qual",
+    "Exter Qual",
+    "Kitchen Qual",
+    "Fireplace Qu",
+    "Neighborhood"
+  ],
+  "target": {
+    "name": "SalePrice",
+    "median": 160100.0,
+    "mean": 179194.47610921503,
+    "iqr": [
+      129425.0,
+      210000.0
+    ],
+    "min": 12789.0,
+    "max": 755000.0,
+    "std": 77798.27304260904
+  },
+  "neighborhood_medians": {
+    "StoneBr": 334582,
+    "NridgHt": 317750,
+    "NoRidge": 290000,
+    "GrnHill": 280000,
+    "Veenker": 257500,
+    "ClearCr": 229250,
+    "Timber": 223344,
+    "Somerst": 215200,
+    "Greens": 206000,
+    "CollgCr": 200320,
+    "Crawfor": 194500,
+    "Blmngtn": 191000,
+    "NWAmes": 181900,
+    "Gilbert": 181000,
+    "SawyerW": 178600,
+    "Mitchel": 152750,
+    "NPkVill": 141250,
+    "NAmes": 140000,
+    "SWISU": 140000,
+    "Sawyer": 137000,
+    "Landmrk": 137000,
+    "Edwards": 125000,
+    "Blueste": 122500,
+    "OldTown": 122000,
+    "BrkSide": 120000,
+    "IDOTRR": 108950,
+    "BrDale": 105750,
+    "MeadowV": 92450
+  },
+  "features": {
+    "numeric": {
+      "Overall Qual": {
+        "min": 1.0,
+        "max": 10.0,
+        "median": 6.0
+      },
+      "Gr Liv Area": {
+        "min": 334.0,
+        "max": 5095.0,
+        "median": 1440.0
+      },
+      "Garage Area": {
+        "min": 0.0,
+        "max": 1488.0,
+        "median": 480.0
+      },
+      "Total Bsmt SF": {
+        "min": 0.0,
+        "max": 5095.0,
+        "median": 984.0
+      },
+      "Year Built": {
+        "min": 1872.0,
+        "max": 2010.0,
+        "median": 1972.0
+      },
+      "Full Bath": {
+        "min": 0.0,
+        "max": 4.0,
+        "median": 2.0
+      },
+      "Mas Vnr Area": {
+        "min": 0.0,
+        "max": 1290.0,
+        "median": 0.0
+      }
+    },
+    "ordinal": {
+      "Bsmt Qual": {
+        "order": [
+          "NA",
+          "Po",
+          "Fa",
+          "TA",
+          "Gd",
+          "Ex"
+        ],
+        "note": "NA = feature absent (e.g. no basement / no fireplace)"
+      },
+      "Exter Qual": {
+        "order": [
+          "NA",
+          "Po",
+          "Fa",
+          "TA",
+          "Gd",
+          "Ex"
+        ],
+        "note": "NA = feature absent (e.g. no basement / no fireplace)"
+      },
+      "Kitchen Qual": {
+        "order": [
+          "NA",
+          "Po",
+          "Fa",
+          "TA",
+          "Gd",
+          "Ex"
+        ],
+        "note": "NA = feature absent (e.g. no basement / no fireplace)"
+      },
+      "Fireplace Qu": {
+        "order": [
+          "NA",
+          "Po",
+          "Fa",
+          "TA",
+          "Gd",
+          "Ex"
+        ],
+        "note": "NA = feature absent (e.g. no basement / no fireplace)"
+      }
+    },
+    "nominal": {
+      "Neighborhood": {
+        "categories": [
+          "Blmngtn",
+          "Blueste",
+          "BrDale",
+          "BrkSide",
+          "ClearCr",
+          "CollgCr",
+          "Crawfor",
+          "Edwards",
+          "Gilbert",
+          "Greens",
+          "GrnHill",
+          "IDOTRR",
+          "Landmrk",
+          "MeadowV",
+          "Mitchel",
+          "NAmes",
+          "NPkVill",
+          "NWAmes",
+          "NoRidge",
+          "NridgHt",
+          "OldTown",
+          "SWISU",
+          "Sawyer",
+          "SawyerW",
+          "Somerst",
+          "StoneBr",
+          "Timber",
+          "Veenker"
+        ]
+      }
+    }
+  },
+  "metrics": {
+    "cv_rmse": 28663.384637412855,
+    "val_rmse": 28599.58852401251,
+    "val_r2": 0.8816937993719152,
+    "test_rmse": 29408.36271718434,
+    "test_r2": 0.8731356512556716
+  }
+}

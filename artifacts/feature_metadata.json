@@ -1,0 +1,92 @@
+{
+  "numeric_features": {
+    "overall_qual": {
+      "display_name": "Overall Qual",
+      "type": "int",
+      "min": 1,
+      "max": 10,
+      "description": "Overall material and finish quality (1 = Very Poor, 10 = Very Excellent)"
+    },
+    "gr_liv_area": {
+      "display_name": "Gr Liv Area",
+      "type": "int",
+      "min": 334,
+      "max": 5095,
+      "unit": "sqft",
+      "description": "Above grade (ground) living area in square feet"
+    },
+    "garage_area": {
+      "display_name": "Garage Area",
+      "type": "int",
+      "min": 0,
+      "max": 1488,
+      "unit": "sqft",
+      "description": "Size of garage in square feet (0 = no garage)"
+    },
+    "total_bsmt_sf": {
+      "display_name": "Total Bsmt SF",
+      "type": "int",
+      "min": 0,
+      "max": 5095,
+      "unit": "sqft",
+      "description": "Total basement area in square feet (0 = no basement)"
+    },
+    "year_built": {
+      "display_name": "Year Built",
+      "type": "int",
+      "min": 1872,
+      "max": 2010,
+      "description": "Original construction year (data range: 1872-2010)"
+    },
+    "full_bath": {
+      "display_name": "Full Bath",
+      "type": "int",
+      "min": 0,
+      "max": 4,
+      "description": "Number of full bathrooms above grade"
+    },
+    "mas_vnr_area": {
+      "display_name": "Mas Vnr Area",
+      "type": "int",
+      "min": 0,
+      "max": 1290,
+      "unit": "sqft",
+      "description": "Masonry veneer area in square feet (0 = none)"
+    }
+  },
+  "ordinal_features": {
+    "bsmt_qual": {
+      "display_name": "Bsmt Qual",
+      "scale": ["NA", "Po", "Fa", "TA", "Gd", "Ex"],
+      "description": "Basement height/quality (NA = no basement, Po = Poor, Fa = Fair, TA = Typical, Gd = Good, Ex = Excellent)"
+    },
+    "exter_qual": {
+      "display_name": "Exter Qual",
+      "scale": ["NA", "Po", "Fa", "TA", "Gd", "Ex"],
+      "description": "Exterior material quality (Po = Poor, Fa = Fair, TA = Typical, Gd = Good, Ex = Excellent)"
+    },
+    "kitchen_qual": {
+      "display_name": "Kitchen Qual",
+      "scale": ["NA", "Po", "Fa", "TA", "Gd", "Ex"],
+      "description": "Kitchen quality (Po = Poor, Fa = Fair, TA = Typical, Gd = Good, Ex = Excellent)"
+    },
+    "fireplace_qu": {
+      "display_name": "Fireplace Qu",
+      "scale": ["NA", "Po", "Fa", "TA", "Gd", "Ex"],
+      "description": "Fireplace quality (NA = no fireplace, Po = Poor, Fa = Fair, TA = Typical, Gd = Good, Ex = Excellent)"
+    }
+  },
+  "nominal_features": {
+    "neighborhood": {
+      "display_name": "Neighborhood",
+      "valid_values": [
+        "Blmngtn", "Blueste", "BrDale", "BrkSide", "ClearCr", "CollgCr",
+        "Crawfor", "Edwards", "Gilbert", "Greens", "GrnHill", "IDOTRR",
+        "Landmrk", "MeadowV", "Mitchel", "NAmes", "NPkVill", "NWAmes",
+        "NoRidge", "NridgHt", "OldTown", "SWISU", "Sawyer", "SawyerW",
+        "Somerst", "StoneBr", "Timber", "Veenker"
+      ],
+      "description": "Physical location within Ames city limits"
+    }
+  }
+}

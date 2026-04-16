@@ -1,0 +1,150 @@
+{
+  "eval_date": "2026-04-16",
+  "model": "gemini-2.5-flash",
+  "temperature": 0.0,
+  "recommendation": "v1",
+  "recommendation_reason": "v1 outperforms v2 on ambiguous/inferential queries due to few-shot examples; both versions tie on all other query types",
+  "summary": {
+    "v1_avg_completeness_pct": 58.0,
+    "v2_avg_completeness_pct": 55.25,
+    "hallucination_detected": false,
+    "both_no_hallucination": true,
+    "v1_wins_on_inference": true,
+    "known_issue": "google.generativeai package deprecated — migrate to google.genai before deployment"
+  },
+  "queries": [
+    {
+      "id": 1,
+      "label": "Full explicit description",
+      "input": "A 2005-built home in StoneBr, 2400 sqft living area, excellent exterior and kitchen, good basement and fireplace quality, 2 full baths, 600 sqft garage, 1200 sqft basement, 200 sqft masonry veneer. Overall quality 8.",
+      "v1": {
+        "completeness_pct": 100,
+        "extracted_count": 12,
+        "missing": [],
+        "values": {
+          "overall_qual": 8,
+          "gr_liv_area": 2400,
+          "garage_area": 600,
+          "total_bsmt_sf": 1200,
+          "year_built": 2005,
+          "full_bath": 2,
+          "mas_vnr_area": 200,
+          "bsmt_qual": "Gd",
+          "exter_qual": "Ex",
+          "kitchen_qual": "Ex",
+          "fireplace_qu": "Gd",
+          "neighborhood": "StoneBr"
+        }
+      },
+      "v2": {
+        "completeness_pct": 100,
+        "extracted_count": 12,
+        "missing": [],
+        "values": {
+          "overall_qual": 8,
+          "gr_liv_area": 2400,
+          "garage_area": 600,
+          "total_bsmt_sf": 1200,
+          "year_built": 2005,
+          "full_bath": 2,
+          "mas_vnr_area": 200,
+          "bsmt_qual": "Gd",
+          "exter_qual": "Ex",
+          "kitchen_qual": "Ex",
+          "fireplace_qu": "Gd",
+          "neighborhood": "StoneBr"
+        }
+      },
+      "winner": "tie",
+      "note": "Both versions identical on fully explicit input"
+    },
+    {
+      "id": 2,
+      "label": "Sparse — almost no info",
+      "input": "A small house in the Old Town neighborhood.",
+      "v1": {
+        "completeness_pct": 8,
+        "extracted_count": 1,
+        "extracted": ["neighborhood"],
+        "missing": ["bsmt_qual", "exter_qual", "fireplace_qu", "full_bath", "garage_area", "gr_liv_area", "kitchen_qual", "mas_vnr_area", "overall_qual", "total_bsmt_sf", "year_built"]
+      },
+      "v2": {
+        "completeness_pct": 8,
+        "extracted_count": 1,
+        "extracted": ["neighborhood"],
+        "missing": ["bsmt_qual", "exter_qual", "fireplace_qu", "full_bath", "garage_area", "gr_liv_area", "kitchen_qual", "mas_vnr_area", "overall_qual", "total_bsmt_sf", "year_built"]
+      },
+      "winner": "tie",
+      "note": "Both correctly returned null instead of hallucinating — desired behavior"
+    },
+    {
+      "id": 3,
+      "label": "Ambiguous — indirect references",
+      "input": "Looking for a newer home, something built in the 2000s, near the college. I want about 2000 sqft, 2 bathrooms, and a good kitchen.",
+      "v1": {
+        "completeness_pct": 33,
+        "extracted_count": 4,
+        "extracted": ["full_bath", "gr_liv_area", "kitchen_qual", "neighborhood"],
+        "neighborhood_inferred": "CollgCr",
+        "missing": ["bsmt_qual", "exter_qual", "fireplace_qu", "garage_area", "mas_vnr_area", "overall_qual", "total_bsmt_sf", "year_built"]
+      },
+      "v2": {
+        "completeness_pct": 25,
+        "extracted_count": 3,
+        "extracted": ["full_bath", "gr_liv_area", "kitchen_qual"],
+        "neighborhood_inferred": null,
+        "missing": ["bsmt_qual", "exter_qual", "fireplace_qu", "garage_area", "mas_vnr_area", "neighborhood", "overall_qual", "total_bsmt_sf", "year_built"]
+      },
+      "winner": "v1",
+      "note": "v1 few-shot examples enabled inference of 'near the college' → CollgCr; v2 could not make this leap. year_built correctly left null despite '2000s' range hint (ambiguous — no specific year)"
+    },
+    {
+      "id": 4,
+      "label": "Absence signals — explicit negations",
+      "input": "Ranch-style home, no basement, no garage, no fireplace. Built in 1965 in North Ames. About 1100 sqft, 1 bathroom, average quality overall.",
+      "v1": {
+        "completeness_pct": 92,
+        "extracted_count": 11,
+        "extracted": ["bsmt_qual", "exter_qual", "fireplace_qu", "full_bath", "garage_area", "gr_liv_area", "mas_vnr_area", "neighborhood", "overall_qual", "total_bsmt_sf", "year_built"],
+        "missing": ["kitchen_qual"],
+        "absence_signals_handled": {
+          "bsmt_qual": "NA",
+          "garage_area": 0,
+          "total_bsmt_sf": 0,
+          "fireplace_qu": "NA"
+        }
+      },
+      "v2": {
+        "completeness_pct": 92,
+        "extracted_count": 11,
+        "extracted": ["bsmt_qual", "exter_qual", "fireplace_qu", "full_bath", "garage_area", "gr_liv_area", "mas_vnr_area", "neighborhood", "overall_qual", "total_bsmt_sf", "year_built"],
+        "missing": ["kitchen_qual"],
+        "absence_signals_handled": {
+          "bsmt_qual": "NA",
+          "garage_area": 0,
+          "total_bsmt_sf": 0,
+          "fireplace_qu": "NA"
+        }
+      },
+      "winner": "tie",
+      "note": "Both correctly mapped 'no X' → NA/0. kitchen_qual not mentioned in query — correctly left null. year_built correctly extracted as 1965."
+    }
+  ],
+  "action_items": [
+    {
+      "priority": "high",
+      "item": "Migrate from google.generativeai to google.genai SDK before deployment",
+      "reason": "FutureWarning raised: google.generativeai support ended, no longer receiving updates/bug fixes"
+    },
+    {
+      "priority": "medium",
+      "item": "Use v1 prompt in production (extraction_v1.txt)",
+      "reason": "Superior semantic inference on ambiguous queries; no regression on other query types"
+    },
+    {
+      "priority": "low",
+      "item": "Consider adding 'built in the Xth decade' inference example to v1 prompt",
+      "reason": "Q3 shows year_built left null for '2000s' — reasonable but an example could help extract a midpoint (e.g., 2005)"
+    }
+  ]
+}

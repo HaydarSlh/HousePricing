@@ -1,0 +1,27 @@
+# Secrets — never bake into the image; set via Railway env vars
+.env
+.env.*
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Dev / notebook artefacts
+notebooks/
+data/
+models/
+scripts/
+tests/
+ui/
+
+# Version control
+.git/
+.gitignore
+
+# Misc
+*.md
+.vscode/
+.idea/

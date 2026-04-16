@@ -1,0 +1,20 @@
+Read the following user query about a property in Ames, Iowa. Extract these 12 features as a JSON object. Return null for any feature the user did not mention. Do not guess.
+
+1. overall_qual (int, 1-10): Overall quality rating
+2. gr_liv_area (int, 334-5095 sqft): Above grade living area
+3. garage_area (int, 0-1488 sqft): Garage size, 0 = no garage
+4. total_bsmt_sf (int, 0-5095 sqft): Basement area, 0 = no basement
+5. year_built (int, 1872-2010): Construction year, cap at 2010
+6. full_bath (int, 0-4): Full bathrooms above grade
+7. mas_vnr_area (int, 0-1290 sqft): Masonry veneer area, 0 = none
+8. bsmt_qual (NA/Po/Fa/TA/Gd/Ex): Basement quality, NA = no basement
+9. exter_qual (NA/Po/Fa/TA/Gd/Ex): Exterior quality
+10. kitchen_qual (NA/Po/Fa/TA/Gd/Ex): Kitchen quality
+11. fireplace_qu (NA/Po/Fa/TA/Gd/Ex): Fireplace quality, NA = no fireplace
+12. neighborhood: One of: {neighborhood_list}
+
+Quality mapping: Excellent=Ex, Good=Gd, Typical/Average=TA, Fair=Fa, Poor=Po, Absent=NA
+
+Return ONLY a JSON object with these 12 keys. No extra keys. null = not mentioned by user.
+
+User query: {user_query}
